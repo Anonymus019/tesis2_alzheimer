@@ -4,6 +4,7 @@ from tensorflow.keras.preprocessing import image
 import numpy as np
 import json
 import os
+import logging
 
 app = Flask(__name__, static_folder='static')
 
@@ -27,7 +28,7 @@ def predict():
     if file.filename == '':
         return jsonify({'error': 'No selected file'})
     if file:
-        img_path = f"./{file.filename}"
+        img_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(img_path)
         img_array = prepare_image(img_path)
         predictions = model.predict(img_array)
@@ -41,4 +42,4 @@ def index():
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(debug=True, host='0.0.0.0', port=port)
+    app.run(debug=False, host='0.0.0.0', port=port)
