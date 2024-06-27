@@ -4,9 +4,15 @@ from tensorflow.keras.preprocessing import image
 import numpy as np
 import json
 import os
-import logging
 
 app = Flask(__name__, static_folder='static')
+
+# Configurar directorio de subida de archivos
+app.config['UPLOAD_FOLDER'] = 'uploads'
+
+# Crear el directorio si no existe
+if not os.path.exists(app.config['UPLOAD_FOLDER']):
+    os.makedirs(app.config['UPLOAD_FOLDER'])
 
 # Cargar el modelo y las clases
 model = load_model('modelo.h5')
@@ -42,4 +48,4 @@ def index():
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(debug=False, host='0.0.0.0', port=port)
+    app.run(debug=True, host='0.0.0.0', port=port)
