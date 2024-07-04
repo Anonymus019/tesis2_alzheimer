@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: tesis2_alzheimer
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python app.py"
+    port: 10000
+    routes:
+      - type: subdomain
+        subdomain: my-flask-app
+        domains:
+          - yourdomain.com
+    # Optional: to set environment variables
+    envVars:
+      - key: FLASK_ENV
+        value: production
